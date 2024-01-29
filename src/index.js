@@ -1,21 +1,12 @@
-import "../styles/index.css"; // добавьте импорт главного файла стилей
-import initialCards from "./cards";
+// В файле index.js должны остаться:
+// объявления и инициализация глобальных констант и переменных с DOM-элементами страницы,
+// обработчики событий (при открытии и закрытии попапов; при отправке форм; обработчик, открывающий попап при клике по изображению карточки);
+// вызовы других функций, подключённых из созданных модулей, которым нужно будет передавать объявленные здесь переменные и обработчики.
+
+import "./styles/index.css"; // добавьте импорт главного файла стилей
+import initialCards from "./components/cards";
+import { createCard, deleteCard } from "./components/card";
 const placesList = document.querySelector(".places__list");
-
-const createCard = (cardData, deleteCard) => {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const cardElement = cardTemplate.querySelector(".places__item").cloneNode(true);
-
-  cardElement.querySelector(".card__image").src = cardData.link;
-  cardElement.querySelector(".card__title").textContent = cardData.name;
-  cardElement.querySelector(".card__delete-button").addEventListener("click", deleteCard);
-  return cardElement;
-};
-
-const deleteCard = (event) => {
-  const cardToDelete = event.target.parentNode;
-  placesList.removeChild(cardToDelete);
-};
 
 window.addEventListener("load", () => {
   initialCards.forEach((card) => {
@@ -23,13 +14,3 @@ window.addEventListener("load", () => {
     placesList.append(cardElement);
   });
 });
-
-// @todo: Темплейт карточки
-
-// @todo: DOM узлы
-
-// @todo: Функция создания карточки
-
-// @todo: Функция удаления карточки
-
-// @todo: Вывести карточки на страницу
