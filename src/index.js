@@ -1,3 +1,5 @@
+import "../styles/index.css"; // добавьте импорт главного файла стилей
+import initialCards from "./cards";
 const placesList = document.querySelector(".places__list");
 
 const createCard = (cardData, deleteCard) => {
