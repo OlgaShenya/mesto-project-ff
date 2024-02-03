@@ -1,6 +1,4 @@
-//Функции для работы с карточками
-// createCard + Функции,
-//обрабатывающие события лайка и удаления карточки, также должны находиться в этом файле и экспортироваться из него.
+const popupImage = document.querySelector(".popup__image");
 
 export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   const cardTemplate = document.querySelector("#card-template").content;
@@ -8,6 +6,7 @@ export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   const cardImage = cardElement.querySelector(".card__image");
 
   cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
   cardElement.querySelector(".card__title").textContent = cardData.name;
   cardElement.querySelector(".card__delete-button").addEventListener("click", deleteCard);
   cardElement.querySelector(".card__like-button").addEventListener("click", likeCard);
@@ -26,7 +25,6 @@ export const likeCard = (event) => {
 };
 
 export const zoomImage = ({ target }) => {
-  document.querySelector(".popup__image").src = target.src;
+  popupImage.src = target.src;
+  popupImage.alt = target.alt;
 };
-//  if (target.classList.contains("card__image")) {
-//  document.querySelector(".popup__image").src = target.src;

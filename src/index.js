@@ -16,6 +16,9 @@ const popupNewCard = document.querySelector(".popup_type_new-card");
 const popupImage = document.querySelector(".popup_type_image");
 const formElement = document.querySelector("[name='edit-profile']");
 const newPlaceForm = document.querySelector("[name='new-place']");
+const modalPlaceName = document.querySelector(".popup__input_type_card-name");
+const modalPlaceUrl = document.querySelector(".popup__input_type_url");
+const popupCaption = document.querySelector(".popup__caption");
 
 window.addEventListener("load", () => {
   initialCards.forEach((card) => {
@@ -34,7 +37,10 @@ addPlaceButton.addEventListener("click", () => {
 });
 
 placesList.addEventListener("click", ({ target }) => {
-  if (target.classList.contains("card__image")) showModal(popupImage);
+  if (target.classList.contains("card__image")) {
+    popupCaption.textContent = target.closest(".places__item").querySelector(".card__title").textContent;
+    showModal(popupImage);
+  }
 });
 
 window.addEventListener("click", (evt) => {
@@ -46,5 +52,7 @@ window.addEventListener("click", (evt) => {
 formElement.addEventListener("submit", handleFormSubmit);
 newPlaceForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  addNewPlace(placesList);
+  addNewPlace(placesList, { name: modalPlaceName.value, link: modalPlaceUrl.value });
+  modalPlaceName.value = "";
+  modalPlaceUrl.value = "";
 });
