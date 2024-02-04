@@ -5,7 +5,7 @@
 
 import "./styles/index.css"; // добавьте импорт главного файла стилей
 import initialCards from "./components/cards";
-import { createCard, deleteCard, likeCard, zoomImage } from "./components/card";
+import { createCard, deleteCard, likeCard } from "./components/card";
 import { showModal, closeModal, renderProfileModal, handleFormSubmit, addNewPlace } from "./components/modal";
 
 const placesList = document.querySelector(".places__list");
@@ -13,16 +13,24 @@ const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
 const buttonOpenPopupAddPlace = document.querySelector(".profile__add-button");
 const popupEdit = document.querySelector(".popup_type_edit");
 const popupNewCard = document.querySelector(".popup_type_new-card");
-const popupImage = document.querySelector(".popup_type_image");
+const popupZoomImage = document.querySelector(".popup_type_image");
+const popupZoomImgElement = document.querySelector(".popup__image");
 const profileForm = document.querySelector("[name='edit-profile']");
 const newPlaceForm = document.querySelector("[name='new-place']");
 const modalPlaceName = document.querySelector(".popup__input_type_card-name");
 const modalPlaceUrl = document.querySelector(".popup__input_type_url");
 const popupCaption = document.querySelector(".popup__caption");
 
+const handleOpenPopupImage = (cardData) => {
+  popupZoomImgElement.src = cardData.link;
+  popupZoomImgElement.alt = cardData.name;
+  popupCaption.textContent = cardData.name;
+  showModal(popupZoomImage);
+};
+
 window.addEventListener("load", () => {
   initialCards.forEach((card) => {
-    const cardElement = createCard(card, deleteCard, likeCard, zoomImage);
+    const cardElement = createCard(card, deleteCard, likeCard, handleOpenPopupImage);
     placesList.append(cardElement);
   });
 });
@@ -36,13 +44,6 @@ buttonOpenPopupAddPlace.addEventListener("click", () => {
   showModal(popupNewCard);
 });
 
-placesList.addEventListener("click", ({ target }) => {
-  if (target.classList.contains("card__image")) {
-    popupCaption.textContent = target.closest(".places__item").querySelector(".card__title").textContent;
-    showModal(popupImage);
-  }
-});
-
 window.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("popup__close") || evt.target.classList.contains("popup")) {
     closeModal();
@@ -50,9 +51,17 @@ window.addEventListener("click", (evt) => {
 });
 
 profileForm.addEventListener("submit", handleFormSubmit);
+
 newPlaceForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  addNewPlace(placesList, { name: modalPlaceName.value, link: modalPlaceUrl.value });
+  const newCard = createCard(
+    { name: modalPlaceName.value, link: modalPlaceUrl.value },
+    deleteCard,
+    likeCard,
+    handleOpenPopupImage
+  );
+  placesList.prepend(newCard);
   modalPlaceName.value = "";
   modalPlaceUrl.value = "";
+  closeModal();
 });

@@ -1,5 +1,3 @@
-const popupImage = document.querySelector(".popup__image");
-
 export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.querySelector(".places__item").cloneNode(true);
@@ -10,7 +8,7 @@ export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   cardElement.querySelector(".card__title").textContent = cardData.name;
   cardElement.querySelector(".card__delete-button").addEventListener("click", deleteCard);
   cardElement.querySelector(".card__like-button").addEventListener("click", likeCard);
-  cardImage.addEventListener("click", zoomImage);
+  cardImage.addEventListener("click", () => zoomImage(cardData));
   return cardElement;
 };
 
@@ -22,9 +20,4 @@ export const deleteCard = (event) => {
 export const likeCard = (event) => {
   const cardLikeButton = event.target;
   cardLikeButton.classList.toggle("card__like-button_is-active");
-};
-
-export const zoomImage = ({ target }) => {
-  popupImage.src = target.src;
-  popupImage.alt = target.alt;
 };
