@@ -9,12 +9,12 @@ import { createCard, deleteCard, likeCard, zoomImage } from "./components/card";
 import { showModal, closeModal, renderProfileModal, handleFormSubmit, addNewPlace } from "./components/modal";
 
 const placesList = document.querySelector(".places__list");
-const editProfileButton = document.querySelector(".profile__edit-button");
-const addPlaceButton = document.querySelector(".profile__add-button");
+const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
+const buttonOpenPopupAddPlace = document.querySelector(".profile__add-button");
 const popupEdit = document.querySelector(".popup_type_edit");
 const popupNewCard = document.querySelector(".popup_type_new-card");
 const popupImage = document.querySelector(".popup_type_image");
-const formElement = document.querySelector("[name='edit-profile']");
+const profileForm = document.querySelector("[name='edit-profile']");
 const newPlaceForm = document.querySelector("[name='new-place']");
 const modalPlaceName = document.querySelector(".popup__input_type_card-name");
 const modalPlaceUrl = document.querySelector(".popup__input_type_url");
@@ -27,12 +27,12 @@ window.addEventListener("load", () => {
   });
 });
 
-editProfileButton.addEventListener("click", () => {
+buttonOpenPopupProfile.addEventListener("click", () => {
   showModal(popupEdit);
   renderProfileModal();
 });
 
-addPlaceButton.addEventListener("click", () => {
+buttonOpenPopupAddPlace.addEventListener("click", () => {
   showModal(popupNewCard);
 });
 
@@ -49,7 +49,7 @@ window.addEventListener("click", (evt) => {
   }
 });
 
-formElement.addEventListener("submit", handleFormSubmit);
+profileForm.addEventListener("submit", handleFormSubmit);
 newPlaceForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   addNewPlace(placesList, { name: modalPlaceName.value, link: modalPlaceUrl.value });
