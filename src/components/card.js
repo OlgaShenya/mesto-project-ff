@@ -6,18 +6,21 @@ export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   cardElement.querySelector(".card__title").textContent = cardData.name;
-  cardElement.querySelector(".card__delete-button").addEventListener("click", deleteCard);
-  cardElement.querySelector(".card__like-button").addEventListener("click", likeCard);
-  cardImage.addEventListener("click", () => zoomImage(cardData));
+
+  cardElement.addEventListener("click", (evt) => {
+    switch (true) {
+      case evt.target.classList.contains("card__delete-button"):
+        deleteCard(evt.currentTarget);
+        break;
+      case evt.target.classList.contains("card__like-button"):
+        likeCard(evt.target);
+        break;
+      case evt.target.classList.contains("card__image"):
+        zoomImage(cardData);
+        break;
+      default:
+    }
+  });
+
   return cardElement;
-};
-
-export const deleteCard = (event) => {
-  const cardToDelete = event.target.parentNode;
-  cardToDelete.remove();
-};
-
-export const likeCard = (event) => {
-  const cardLikeButton = event.target;
-  cardLikeButton.classList.toggle("card__like-button_is-active");
 };

@@ -5,8 +5,8 @@
 
 import "./styles/index.css"; // добавьте импорт главного файла стилей
 import initialCards from "./components/cards";
-import { createCard, deleteCard, likeCard } from "./components/card";
-import { showModal, closeModal, renderProfileModal, handleFormSubmit, addNewPlace } from "./components/modal";
+import { createCard } from "./components/card";
+import { showModal, closeModal } from "./components/modal";
 
 const placesList = document.querySelector(".places__list");
 const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
@@ -20,12 +20,37 @@ const newPlaceForm = document.querySelector("[name='new-place']");
 const modalPlaceName = document.querySelector(".popup__input_type_card-name");
 const modalPlaceUrl = document.querySelector(".popup__input_type_url");
 const popupCaption = document.querySelector(".popup__caption");
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+const modalProfileTitle = document.querySelector(".popup__input_type_name");
+const modalProfileDescription = document.querySelector(".popup__input_type_description");
+
+const deleteCard = (cardToDelete) => {
+  cardToDelete.remove();
+};
+
+const likeCard = (cardLikeButton) => {
+  cardLikeButton.classList.toggle("card__like-button_is-active");
+};
 
 const handleOpenPopupImage = (cardData) => {
   popupZoomImgElement.src = cardData.link;
   popupZoomImgElement.alt = cardData.name;
   popupCaption.textContent = cardData.name;
   showModal(popupZoomImage);
+};
+
+const profileFormSubmit = (evt) => {
+  evt.preventDefault();
+  profileDescription.textContent = modalProfileDescription.value;
+  profileTitle.textContent = modalProfileTitle.value;
+  closeModal(popupEdit);
+};
+
+const handlerClosePopup = (evt) => {
+  if (evt.target.classList.contains("popup__close") || evt.target.classList.contains("popup")) {
+    closeModal(evt.currentTarget);
+  }
 };
 
 window.addEventListener("load", () => {
@@ -36,21 +61,16 @@ window.addEventListener("load", () => {
 });
 
 buttonOpenPopupProfile.addEventListener("click", () => {
+  modalProfileTitle.value = profileTitle.textContent;
+  modalProfileDescription.value = profileDescription.textContent;
   showModal(popupEdit);
-  renderProfileModal();
 });
 
-buttonOpenPopupAddPlace.addEventListener("click", () => {
-  showModal(popupNewCard);
-});
-
-window.addEventListener("click", (evt) => {
-  if (evt.target.classList.contains("popup__close") || evt.target.classList.contains("popup")) {
-    closeModal();
-  }
-});
-
-profileForm.addEventListener("submit", handleFormSubmit);
+buttonOpenPopupAddPlace.addEventListener("click", () => showModal(popupNewCard));
+popupEdit.addEventListener("click", handlerClosePopup);
+popupNewCard.addEventListener("click", handlerClosePopup);
+popupZoomImage.addEventListener("click", handlerClosePopup);
+profileForm.addEventListener("submit", profileFormSubmit);
 
 newPlaceForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -63,5 +83,5 @@ newPlaceForm.addEventListener("submit", (evt) => {
   placesList.prepend(newCard);
   modalPlaceName.value = "";
   modalPlaceUrl.value = "";
-  closeModal();
+  closeModal(popupNewCard);
 });
