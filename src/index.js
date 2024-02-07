@@ -5,7 +5,7 @@
 
 import "./styles/index.css"; // добавьте импорт главного файла стилей
 import initialCards from "./components/cards";
-import { createCard } from "./components/card";
+import { createCard, deleteCard, likeCard } from "./components/card";
 import { showModal, closeModal } from "./components/modal";
 
 const placesList = document.querySelector(".places__list");
@@ -24,14 +24,6 @@ const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const modalProfileTitle = document.querySelector(".popup__input_type_name");
 const modalProfileDescription = document.querySelector(".popup__input_type_description");
-
-const deleteCard = (cardToDelete) => {
-  cardToDelete.remove();
-};
-
-const likeCard = (cardLikeButton) => {
-  cardLikeButton.classList.toggle("card__like-button_is-active");
-};
 
 const handleOpenPopupImage = (cardData) => {
   popupZoomImgElement.src = cardData.link;
