@@ -1,7 +1,11 @@
-export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const cardElement = cardTemplate.querySelector(".places__item").cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
+const cardTemplate = document.querySelector("#card-template").content;
+
+const getCardTemplate = () => {
+  return cardTemplate.querySelector(".places__item").cloneNode(true);
+};
+
+export const createCard = (cardData, userId, deleteCard, likeCard, zoomImage) => {
+  const cardImage = getCardTemplate();
   const buttonDelete = cardElement.querySelector(".card__delete-button");
   const buttonLike = cardElement.querySelector(".card__like-button");
   const cardTitle = cardElement.querySelector(".card__title");
@@ -12,7 +16,7 @@ export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   cardTitle.textContent = cardData.name;
   setLikesCounter(cardElement, cardData.likes.length);
 
-  if (deleteCard) {
+  if (cardData.owner._id === userId) {
     buttonDelete.addEventListener("click", () => deleteCard(cardElement));
   } else {
     buttonDelete.remove();

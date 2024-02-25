@@ -17,6 +17,7 @@ import {
   requestProfileUpdate,
   requestUser,
 } from "./components/api";
+import { resetButtonText, showSaving } from "./components/utils";
 
 const placesList = document.querySelector(".places__list");
 const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
@@ -49,12 +50,7 @@ window.addEventListener("load", () => {
   Promise.all([promiseCards, promiseUser])
     .then(([cards, user]) => {
       cards.forEach((card) => {
-        const cardElement = createCard(
-          card,
-          card.owner._id === user._id ? deleteCard : null,
-          likeCard,
-          handleOpenPopupImage
-        );
+        const cardElement = createCard(card, user._id, likeCard, handleOpenPopupImage);
         if (card.likes.find((item) => item._id === user._id)) {
           toggleLikeButton(cardElement);
         }
@@ -66,14 +62,6 @@ window.addEventListener("load", () => {
     })
     .catch(logError);
 });
-
-const showSaving = (buttonSave) => {
-  buttonSave.textContent = "Сохранение...";
-};
-
-const resetButtonText = (buttonSave, text = "Сохранить") => {
-  buttonSave.textContent = text;
-};
 
 const deleteCard = (card) => {
   requestDeleteCard(card.id)
@@ -109,7 +97,7 @@ const submitFormProfile = (evt) => {
       profileDescription.textContent = data.about;
     })
     .catch(logError)
-    .then(() => {
+    .finally(() => {
       resetButtonText(evt.submitter);
       closeModal(popupEdit);
     });
@@ -126,7 +114,7 @@ const submitFormAvatar = (evt) => {
       profileImage.style.backgroundImage = `url(${data.avatar})`;
     })
     .catch(logError)
-    .then(() => {
+    .finally(() => {
       resetButtonText(evt.submitter);
       closeModal(popupAvatarEdit);
     });
@@ -140,11 +128,11 @@ const submitFormNewPlace = (evt) => {
     link: modalPlaceUrl.value,
   })
     .then((data) => {
-      const newCard = createCard(data, deleteCard, likeCard, handleOpenPopupImage);
+      const newCard = createCard(data, data.owner._id, deleteCard, likeCard, handleOpenPopupImage);
       placesList.prepend(newCard);
     })
     .catch(logError)
-    .then(() => {
+    .finally(() => {
       resetButtonText(evt.submitter, "Создать");
       closeModal(popupNewCard);
     });
@@ -164,15 +152,14 @@ buttonOpenPopupProfile.addEventListener("click", () => {
 });
 
 buttonOpenPopupAddPlace.addEventListener("click", () => {
-  modalPlaceName.value = "";
-  modalPlaceUrl.value = "";
+  formNewPlace.reset();
   clearValidation(formNewPlace, validationConfig);
   showModal(popupNewCard);
 });
 // ----------------------------------------------------------------------------------------
 buttonOpenPopupAvatar.addEventListener("click", () => {
   clearValidation(formAvatar, validationConfig);
-  inputAvatarURL.value = "";
+  formAvatar.reset();
   showModal(popupAvatarEdit);
 });
 popupEdit.addEventListener("click", closePopupHandler);
