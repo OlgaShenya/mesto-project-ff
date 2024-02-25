@@ -15,7 +15,6 @@ const isValid = (formElement, inputElement, formConfig) => {
 const showInputError = (formElement, inputElement, formConfig) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(formConfig.inputErrorClass);
-  console.log({ formElement, inputElement, formConfig });
   errorElement.textContent = inputElement.validationMessage;
   errorElement.classList.add(formConfig.errorClass);
 };

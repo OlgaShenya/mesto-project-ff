@@ -5,33 +5,33 @@ const checkStatus = (res) => {
   return Promise.reject(`Request failed. Status: ${res.status}`);
 };
 
-export const requestInitialCards = () => {
+export const requestInitialCards = async () => {
   return fetch(`${configApi.baseUrl}/cards`, {
     headers: configApi.headers,
   }).then(checkStatus);
 };
 
-export const requestUser = () => {
+export const requestUser = async () => {
   return fetch(`${configApi.baseUrl}/users/me`, {
     headers: configApi.headers,
   }).then((res) => res.json());
 };
 
-export const requestDeleteCard = (cardId) => {
+export const requestDeleteCard = async (cardId) => {
   return fetch(`${configApi.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: configApi.headers,
   }).then(checkStatus);
 };
 
-export const requestLikeCard = (cardId, isLiked) => {
+export const requestLikeCard = async (cardId, isLiked) => {
   return fetch(`${configApi.baseUrl}/cards/likes/${cardId}`, {
     method: isLiked ? "DELETE" : "PUT",
     headers: configApi.headers,
   }).then(checkStatus);
 };
 
-export const requestProfileUpdate = (profile) => {
+export const requestProfileUpdate = async (profile) => {
   return fetch(`${configApi.baseUrl}/users/me`, {
     method: "PATCH",
     headers: configApi.headers,
@@ -39,7 +39,7 @@ export const requestProfileUpdate = (profile) => {
   }).then(checkStatus);
 };
 
-export const requestAvatarUpdate = (avatar) => {
+export const requestAvatarUpdate = async (avatar) => {
   return fetch(`${configApi.baseUrl}/users/me/avatar`, {
     method: "PATCH",
     headers: configApi.headers,
@@ -47,7 +47,7 @@ export const requestAvatarUpdate = (avatar) => {
   }).then(checkStatus);
 };
 
-export const requestPlaceAdd = (place) => {
+export const requestPlaceAdd = async (place) => {
   return fetch(`${configApi.baseUrl}/cards`, {
     method: "POST",
     headers: configApi.headers,

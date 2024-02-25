@@ -4,12 +4,13 @@ export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   const cardImage = cardElement.querySelector(".card__image");
   const buttonDelete = cardElement.querySelector(".card__delete-button");
   const buttonLike = cardElement.querySelector(".card__like-button");
+  const cardTitle = cardElement.querySelector(".card__title");
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   cardElement.id = cardData._id;
-  cardElement.querySelector(".card__title").textContent = cardData.name;
-  setCounter(cardElement, cardData.likes.length);
+  cardTitle.textContent = cardData.name;
+  setLikesCounter(cardElement, cardData.likes.length);
 
   if (deleteCard) {
     buttonDelete.addEventListener("click", () => deleteCard(cardElement));
@@ -22,11 +23,11 @@ export const createCard = (cardData, deleteCard, likeCard, zoomImage) => {
   return cardElement;
 };
 
-export const deleteCardFront = (cardToDelete) => {
+export const deleteCardElement = (cardToDelete) => {
   cardToDelete.remove();
 };
 
-export const likeCard = (cardElement) => {
+export const toggleLikeButton = (cardElement) => {
   const buttonLike = cardElement.querySelector(".card__like-button");
   buttonLike.classList.toggle("card__like-button_is-active");
 };
@@ -35,7 +36,7 @@ export const isLiked = (cardElement) => {
   return Boolean(cardElement.querySelector(".card__like-button_is-active"));
 };
 
-export const setCounter = (cardElement, value) => {
+export const setLikesCounter = (cardElement, value) => {
   const likeCounter = cardElement.querySelector(".card__like-counter");
   likeCounter.textContent = value;
 };
