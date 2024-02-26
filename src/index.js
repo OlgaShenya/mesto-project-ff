@@ -50,7 +50,7 @@ window.addEventListener("load", () => {
   Promise.all([promiseCards, promiseUser])
     .then(([cards, user]) => {
       cards.forEach((card) => {
-        const cardElement = createCard(card, user._id, likeCard, handleOpenPopupImage);
+        const cardElement = createCard(card, user._id, deleteCard, likeCard, handleOpenPopupImage);
         if (card.likes.find((item) => item._id === user._id)) {
           toggleLikeButton(cardElement);
         }
