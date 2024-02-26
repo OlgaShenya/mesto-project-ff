@@ -95,11 +95,11 @@ const submitFormProfile = (evt) => {
     .then((data) => {
       profileTitle.textContent = data.name;
       profileDescription.textContent = data.about;
+      closeModal(popupEdit);
     })
     .catch(logError)
     .finally(() => {
       resetButtonText(evt.submitter);
-      closeModal(popupEdit);
     });
 };
 
@@ -112,11 +112,11 @@ const submitFormAvatar = (evt) => {
   })
     .then((data) => {
       profileImage.style.backgroundImage = `url(${data.avatar})`;
+      closeModal(popupAvatarEdit);
     })
     .catch(logError)
     .finally(() => {
       resetButtonText(evt.submitter);
-      closeModal(popupAvatarEdit);
     });
 };
 
@@ -130,11 +130,11 @@ const submitFormNewPlace = (evt) => {
     .then((data) => {
       const newCard = createCard(data, data.owner._id, deleteCard, likeCard, handleOpenPopupImage);
       placesList.prepend(newCard);
+      closeModal(popupNewCard);
     })
     .catch(logError)
     .finally(() => {
       resetButtonText(evt.submitter, "Создать");
-      closeModal(popupNewCard);
     });
 };
 

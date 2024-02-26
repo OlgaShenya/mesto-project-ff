@@ -5,7 +5,8 @@ const getCardTemplate = () => {
 };
 
 export const createCard = (cardData, userId, deleteCard, likeCard, zoomImage) => {
-  const cardImage = getCardTemplate();
+  const cardElement = getCardTemplate();
+  const cardImage = cardElement.querySelector(".card__image");
   const buttonDelete = cardElement.querySelector(".card__delete-button");
   const buttonLike = cardElement.querySelector(".card__like-button");
   const cardTitle = cardElement.querySelector(".card__title");
